@@ -1,0 +1,27 @@
+{
+  "name": "slim-team-goit-backend",
+  "version": "1.0.0",
+  "description": "SlimMom backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kilkenni/slim-team-goit-backend.git"
+  },
+  "keywords": [
+    "express",
+    "mongo",
+    "node"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kilkenni/slim-team-goit-backend/issues"
+  },
+  "homepage": "https://github.com/Kilkenni/slim-team-goit-backend#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
