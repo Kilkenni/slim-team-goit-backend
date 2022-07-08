@@ -1,3 +1,10 @@
+# data
+tmp
+
+# security
+.env
+
+
 # Logs
 logs
 *.log
