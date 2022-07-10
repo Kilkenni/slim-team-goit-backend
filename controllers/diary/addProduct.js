@@ -6,9 +6,8 @@ const addProduct = async (req, res) => {
     const productId = req.body.productList._id
     const calories = req.body.productList.calories
     const userDiary = await Diary.find({ $and: [{ date: { $eq: date } }, 
-        { owner: { $eq: _id } }] });
+    { owner: { $eq: _id } }] });
     
-
     if(!userDiary) {
        const kcal = (grams * calories)/100
        const newProduct = await Diary.create({
@@ -36,7 +35,7 @@ const addProduct = async (req, res) => {
     };
     
     if(userDiary){
-        const kcal = (grams * calories)/100
+       const kcal = (grams * calories)/100
        const newProduct = await Diary.updateOne({date: date, owner: _id}, 
         {$push: {productList: {title: title, weight: grams, calories: kcal}} });
        
