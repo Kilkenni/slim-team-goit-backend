@@ -1,5 +1,5 @@
-// const users = require("./users");
+const diaryCtrl = require("./diary");
 
 module.exports = {
-  //   users,
+  diaryCtrl,
 };
