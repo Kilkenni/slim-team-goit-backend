@@ -1,3 +1,3 @@
-const addNewProductToDiary = require("./addNewProductToDiary");
+const addProduct = require("./addProduct");
 
-module.exports = {addNewProductToDiary,};
+module.exports = {addProduct,};
