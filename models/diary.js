@@ -37,11 +37,11 @@ const joiSchemaProductAdd = Joi.object({
   weight: Joi.number().required(),
   date: Joi.string().required(),
   title: Joi.string(),
-  caloriesBasic: Joi.number(),
+  calories: Joi.number(),
 });
 
 const joiSchemaProductDelete = Joi.object({
-  _id: Joi.string().required(),
+  productId: Joi.string().required(),
   date: Joi.string().required(),
   owner: Joi.string(),
 });
