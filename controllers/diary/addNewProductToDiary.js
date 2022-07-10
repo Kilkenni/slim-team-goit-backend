@@ -1,6 +1,6 @@
 const { Diary } = require("../../models");
 
-const addNewProductToDiary = async (req, res) => {
+const addProduct = async (req, res) => {
     const { _id } = req.user;
     const { title, grams, date} = req.body;
     const productId = req.body.productList._id
@@ -53,4 +53,4 @@ const addNewProductToDiary = async (req, res) => {
 
 }
 
-module.exports = addNewProductToDiary;
+module.exports = addProduct;
