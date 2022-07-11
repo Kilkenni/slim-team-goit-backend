@@ -1,7 +1,7 @@
 const express = require('express')
-const {joiValidation, ctrlWrapper, auth} =  require('../../middlewares')
-const { schemaRegister, schemaLogin} = require('../../models')
-const { registration, login, logout} = require('../../controllers')
+const {joiValidation, ctrlWrapper, auth} =  require('../../middlewares/index')
+const { schemaRegister, schemaLogin} = require('../../models/index')
+const { registration, login, logout} = require('../../controllers/auth')
 
 const router = express.Router()
 

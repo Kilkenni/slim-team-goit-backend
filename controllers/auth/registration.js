@@ -1,11 +1,11 @@
-const {User} = require('../../models/userSchema')
+const {User} = require('../../models/index')
 const bcrypt = require('bcryptjs')
 
 
-const registration = async (req, res, next) => {
+const registration = async (req, res, _next) => {
   const {email, password} = req.body
   const user =  await User.findOne({email: email});
-
+  
   if(user){
     res.status(409).json({"message":"Email in use"})
    }

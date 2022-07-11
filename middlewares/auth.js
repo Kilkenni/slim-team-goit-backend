@@ -1,6 +1,6 @@
-const { SECRET_KEY } = require("../helpers/evn");
+const { SECRET_KEY } = require("../helpers/env");
 const jwt = require('jsonwebtoken');
-const { User } = require("../models/userSchema");
+const { User } = require("../models/index");
 
 const authenticateUser = async (token) => {
 try {

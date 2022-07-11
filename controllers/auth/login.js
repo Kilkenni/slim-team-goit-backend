@@ -1,7 +1,7 @@
-const {User} = require('../../models/userSchema')
+const {User} = require('../../models/index')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const {SECRET_KEY} = require('../../helpers/evn')
+const {SECRET_KEY} = require("../../helpers/env")
 
 const login = async (req, res, _next) => {
     const {email, password} = req.body
