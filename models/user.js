@@ -46,23 +46,22 @@ const userSchema = Schema(
     },
     verificationToken: {
       type: String,
-      required: [true, "Verification token is required"],
     },
   },
   { versionKey: false, timestamps: true }
 );
 
-const joiSchemaAddUser = Joi.object({
+const schemaRegister = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
   name: Joi.string().pattern(nameRegexp).min(2).max(16).required(),
   password: Joi.string().min(6).max(20).required(),
 });
 
-const joiSchemaLoginUser = Joi.object({
+const schemaLogin = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
   password: Joi.string().min(6).required(),
 });
 
 const User = model("user", userSchema);
 
-module.exports = { User, joiSchemaAddUser, joiSchemaLoginUser };
+module.exports = { User, schemaRegister, schemaLogin };

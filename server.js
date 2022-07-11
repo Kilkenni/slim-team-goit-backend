@@ -1,5 +1,6 @@
 const app = require("./app");
 const mongoose = require("mongoose");
+
 const { DB_HOST, PORT = 3000 } = require("./helpers/env");
 
 // Assemble database path from ENV variables. TODO: create new Mongo DB
@@ -20,3 +21,4 @@ mongoose
     console.error("ERROR ", err);
     process.exit(1);
   });
+

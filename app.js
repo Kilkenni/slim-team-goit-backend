@@ -2,6 +2,7 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const diaryRouter = require("./routes/api");
+const authRouter = require('./routes/api/authRoute')
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Место для добавления раутов
+app.use('/api/auth', authRouter)
 
 app.use("/api/diary", diaryRouter);
 
