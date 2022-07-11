@@ -1,4 +1,4 @@
-const { User, schemaRegister, schemaLogin } = require("./user");
+const { User, joiSchemaRegister, joiSchemaLogin } = require("./user");
 const { Product, joiSchemaProductGet } = require("./product");
 const {
   Diary,
@@ -8,12 +8,11 @@ const {
 
 module.exports = {
   User,
-  schemaRegister, 
-  schemaLogin,
+  joiSchemaRegister,
+  joiSchemaLogin,
   Product,
   joiSchemaProductGet,
   Diary,
   joiSchemaProductAdd,
   joiSchemaProductDelete,
 };
-

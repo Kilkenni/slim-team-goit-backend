@@ -3,7 +3,7 @@ const { createError } = require("../../helpers/errors");
 
 const getDiaryOnDate = async (req, res) => {
   const ownerId = req.user._id;
-  const { date } = req.param;
+  const { date } = req.params;
 
   const diaryOnDate = await Diary.findOne({ ownerId, date });
 
