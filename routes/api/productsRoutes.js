@@ -5,7 +5,7 @@ const { productsCtrl } = require("../../controllers");
 const router = express.Router();
 
 router.get(
-  "/:bloodType",
+  "/",
   ctrlWrapper(productsCtrl.getCaloriesAndNotAllowedProducts)
 );
 
