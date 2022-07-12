@@ -51,17 +51,17 @@ const userSchema = Schema(
   { versionKey: false, timestamps: true }
 );
 
-const schemaRegister = Joi.object({
+const joiSchemaRegister = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
   name: Joi.string().pattern(nameRegexp).min(2).max(16).required(),
   password: Joi.string().min(6).max(20).required(),
 });
 
-const schemaLogin = Joi.object({
+const joiSchemaLogin = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
   password: Joi.string().min(6).required(),
 });
 
 const User = model("user", userSchema);
 
-module.exports = { User, schemaRegister, schemaLogin };
+module.exports = { User, joiSchemaRegister, joiSchemaLogin };

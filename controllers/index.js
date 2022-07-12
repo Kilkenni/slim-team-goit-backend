@@ -1,9 +1,9 @@
+const authCtrl = require("./auth");
+const productsCtrl = require("./products");
 const diaryCtrl = require("./diary");
-const auth = require("./auth");
-const calculateCalories = require("./product")
 
 module.exports = {
+  authCtrl,
+  productsCtrl,
   diaryCtrl,
-  auth,
-  calculateCalories
 };
