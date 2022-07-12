@@ -1,31 +1,35 @@
 const { Product } = require("../../models");
 const { createError } = require("../../helpers/errors");
 
-const getCaloriesAndNotAllowedProducts = async (req, res) => { 
-    const { currentWeight, height, age, desiredWeight } = req.body;
-    
-    const { bloodType } = req.params;
+const getCaloriesAndNotAllowedProducts = async (req, res) => {
+  const { currentWeight, height, age, desiredWeight } = req.body;
 
-    const notAllowedProducts = await Product.find({["groupBloodNotAllowed." + bloodType]: { $eq: true } },
-    { limit: 50 })
+  const { bloodType } = req.params;
 
-    if (!notAllowedProducts) { 
-        throw createError(404, 'Not Found');
-    }
+  const notAllowedProducts = await Product.find(
+    { ["groupBloodNotAllowed." + bloodType]: { $eq: true } },
+    { limit: 50 }
+  );
 
-    const colories = 
-10 * currentWeight + 6.25 * height - 5 * age - 161 - 10 * (currentWeight - desiredWeight)
-        
-        
-        res.json({
-            status: "Success",
-            code: 200,
-            data: {
-                products: [...notAllowedProducts],
-                colories
-            }
-        })
-     
-}
+  if (!notAllowedProducts) {
+    throw createError(404, "Not Found");
+  }
+
+  const calories =
+    10 * currentWeight +
+    6.25 * height -
+    5 * age -
+    161 -
+    10 * (currentWeight - desiredWeight);
+
+  res.json({
+    status: "Success",
+    code: 200,
+    data: {
+      products: [...notAllowedProducts],
+      calories,
+    },
+  });
+};
 
 module.exports = getCaloriesAndNotAllowedProducts;
