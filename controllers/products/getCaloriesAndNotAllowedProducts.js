@@ -2,11 +2,13 @@ const { Product } = require("../../models");
 const { createError } = require("../../helpers/errors");
 
 const getCaloriesAndNotAllowedProducts = async (req, res) => { 
-    const { currentWeight, height, age, desiredWeight } = req.body;
+    const { currentWeight, height, age, desiredWeight, bloodType } = req.body;
     
-    const { bloodType } = req.params;
+     if (bloodType < 1 || bloodType > 4) { 
+        throw createError(400, 'Bad Request');
+    }
 
-    const notAllowedProducts = await Product.find({["groupBloodNotAllowed." + bloodType]: { $eq: true } },
+    const notAllowedProducts = await Product.find({["groupBloodNotAllowed." + bloodType]: { $eq: true } }, '',
     { limit: 50 })
 
     if (!notAllowedProducts) { 
