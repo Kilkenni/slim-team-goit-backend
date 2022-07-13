@@ -19,13 +19,10 @@ const refreshTokens = async (req, res) => {
 
       const reqRefreshToken = authorizationHeader.replace("Bearer ", "");
       const payload = jwt.verify(reqRefreshToken, JWT_REFRESH_SECRET);
-      try {
-        jwt.verify(reqRefreshToken, JWT_REFRESH_SECRET);
-      } catch (err) {
+      if(!payload){
         await SessionModel.findByIdAndDelete(req.body.sid);
         return res.status(401).send({ message: "Unauthorized" });
       }
-
       const user = await User.findById(payload.uid);
       const session = await SessionModel.findById(payload.sid);
 
