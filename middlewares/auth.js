@@ -1,10 +1,10 @@
-const { SECRET_KEY } = require("../helpers/env");
+const { JWT_ACCESS_SECRET } = require("../helpers/env");
 const jwt = require("jsonwebtoken");
 const { User } = require("../models");
 
 const authenticateUser = async (token) => {
   try {
-    const payload = jwt.verify(token, SECRET_KEY);
+    const payload = jwt.verify(token, JWT_ACCESS_SECRET);
     return await User.findById(payload._id);
   } catch (error) {
     return null;

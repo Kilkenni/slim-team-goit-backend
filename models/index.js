@@ -1,15 +1,27 @@
-const { User, joiSchemaRegister, joiSchemaLogin } = require("./user");
-const { Product, joiSchemaProductGet } = require("./product");
+const { 
+  User, 
+  joiSchemaRegister, 
+  joiSchemaLogin, 
+  SessionModel, 
+  refreshTokensSchema 
+} = require("./user");
+
+const { Product, 
+  joiSchemaProductGet 
+} = require("./product");
+
 const {
   Diary,
   joiSchemaProductAdd,
   joiSchemaProductDelete,
 } = require("./diary");
 
-module.exports = {
-  User,
-  joiSchemaRegister,
-  joiSchemaLogin,
+module.exports = { 
+  User, 
+  joiSchemaRegister, 
+  joiSchemaLogin, 
+  SessionModel,
+  refreshTokensSchema, 
   Product,
   joiSchemaProductGet,
   Diary,
