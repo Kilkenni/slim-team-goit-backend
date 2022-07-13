@@ -2,9 +2,12 @@ const { Product } = require("../../models");
 const { createError } = require("../../helpers/errors");
 
 const getProduct = async (req, res) => {
-  const searchedProduct = req.params.searchQuery;
+  const searchedProduct = new RegExp(req.params.searchQuery, "gi");
 
-  const product = await Product.find({ "title.ua": { searchedProduct } });
+  const product = await Product.find().or(
+    { "title.ru": { $regex: searchedProduct } },
+    { "title.ua": { $regex: searchedProduct } }
+  );
 
   if (!product.length) {
     throw createError(404, `Product "${searchedProduct}" not found`);
@@ -14,7 +17,7 @@ const getProduct = async (req, res) => {
     status: "Success",
     code: 200,
     data: {
-      result: product,
+      product,
     },
   });
 };
