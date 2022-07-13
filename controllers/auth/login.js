@@ -7,14 +7,20 @@ const {
   JWT_REFRESH_SECRET, 
   JWT_REFRESH_EXPIRE_TIME, 
 } = require("../../helpers/env");
+const { createError } = require("../../helpers/errors");
 
 const login = async (req, res, _next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
+
+  if (!user) {
+    throw createError(403,  `User with ${email} email doesn't exist`);
+  }
+
   const isValid = await bcrypt.compare(password, user.password);
 
-  if (!user || !isValid) {
-    res.status(401).json({ message: "Email or password is wrong" });
+  if (!isValid) {
+    throw createError(403, "Password is wrong");
   }
 
   const newSession = await SessionModel.create({
@@ -32,16 +38,21 @@ const login = async (req, res, _next) => {
       JWT_REFRESH_SECRET,
     { expiresIn: JWT_REFRESH_EXPIRE_TIME }
   );
-      return res.status(200).send({
-        accessToken,
-        refreshToken,
-        sid: newSession._id,
-        data: {
-          email: user.email,
-          name: user.name,
-          id: user._id,
-        },
-      })
+
+  return res.json({
+    status: "Success",
+    code: 200,
+    data: {
+      accessToken,
+      refreshToken,
+      sid: newSession._id,
+      userData: {
+        email: user.email,
+        name: user.name,
+        id: user._id,
+      },
+    },
+  });
 };
 
 module.exports = login;

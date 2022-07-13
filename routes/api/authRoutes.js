@@ -18,9 +18,9 @@ router.post(
   ctrlWrapper(authCtrl.login)
 );
 
-router.get(
+router.post(
   "/users/logout", 
-  auth, 
+  ctrlWrapper(auth), 
   ctrlWrapper(authCtrl.logout)
 );
 

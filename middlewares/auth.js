@@ -1,31 +1,37 @@
 const { JWT_ACCESS_SECRET } = require("../helpers/env");
+const { User, SessionModel } = require("../models");
 const jwt = require("jsonwebtoken");
-const { User } = require("../models");
 
-const authenticateUser = async (token) => {
-  try {
-    const payload = jwt.verify(token, JWT_ACCESS_SECRET);
-    return await User.findById(payload._id);
-  } catch (error) {
-    return null;
-  }
-};
+const auth  = async (req, res, next) => {
+  const authorizationHeader = req.get("Authorization");
 
-const auth = async (req, res, next) => {
-  const { authorization = "" } = req.headers;
-  const [bearer, token] = authorization.split(" ");
+  if (authorizationHeader) {
+    const accessToken = authorizationHeader.replace("Bearer ", "");
 
-  if (bearer !== "Bearer" || !token) {
-    res.status(401).json({ message: "Not authorized" });
-  }
+    try {
+      const payload = jwt.verify(accessToken, JWT_ACCESS_SECRET);
 
-  const user = await authenticateUser(token);
+      const user = await User.findById(payload.uid);
 
-  if (!user || !user.token) {
-    res.status(401).json({ message: "Not authorized" });
-  }
-  req.user = user;
-  next();
+      const session = await SessionModel.findById(payload.sid);
+
+      if (!user) {
+        return res.status(404).send({ message: "Invalid user" });
+      }
+  
+      if (!session) {
+        return res.status(404).send({ message: "Invalid session" });
+      }
+
+      req.user = user;
+      req.session = session;
+  
+      next();
+    } catch (err) {
+      return res.json(err)
+    }
+    next();
+  } else return res.status(400).send({ message: "No token provided" });
 };
 
 module.exports = auth;
