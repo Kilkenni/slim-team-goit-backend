@@ -4,10 +4,7 @@ const { productsCtrl } = require("../../controllers");
 
 const router = express.Router();
 
-router.get(
-  "/",
-  ctrlWrapper(productsCtrl.getCaloriesAndNotAllowedProducts)
-);
+router.post("/", ctrlWrapper(productsCtrl.getCaloriesAndNotAllowedProducts));
 
 // router.put("/user/:bloodType", auth, ctrlWrapper(productsCtrl));
 
