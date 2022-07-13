@@ -1,9 +1,7 @@
 const { SessionModel, User } = require("../../models");
 const { 
     JWT_ACCESS_SECRET, 
-    JWT_ACCESS_EXPIRE_TIME, 
     JWT_REFRESH_SECRET, 
-    JWT_REFRESH_EXPIRE_TIME, 
   } = require("../../helpers/env");
   const jwt = require("jsonwebtoken");
 const { createError } = require("../../helpers/errors");
@@ -42,13 +40,13 @@ const refreshTokens = async (req, res) => {
         const newAccessToken = jwt.sign(
           { uid: user._id, sid: newSession._id },
               JWT_ACCESS_SECRET,
-          {expiresIn: JWT_ACCESS_EXPIRE_TIME}
+          {expiresIn: '1h'}
         );
   
         const newRefreshToken = jwt.sign(
           { uid: user._id, sid: newSession._id },
               JWT_REFRESH_SECRET,
-          { expiresIn: JWT_REFRESH_EXPIRE_TIME }
+          { expiresIn: '30d' }
         );
         return res.json({
           status: "Success",

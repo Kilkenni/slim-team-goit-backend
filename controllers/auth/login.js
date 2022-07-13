@@ -2,14 +2,13 @@ const { User, SessionModel } = require("../../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { 
-  JWT_ACCESS_SECRET, 
-  JWT_ACCESS_EXPIRE_TIME, 
+  JWT_ACCESS_SECRET,  
   JWT_REFRESH_SECRET, 
-  JWT_REFRESH_EXPIRE_TIME, 
 } = require("../../helpers/env");
 const { createError } = require("../../helpers/errors");
 
 const login = async (req, res, _next) => {
+ 
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
@@ -23,6 +22,7 @@ const login = async (req, res, _next) => {
     throw createError(403, "Password is wrong");
   }
 
+  
   const newSession = await SessionModel.create({
     uid: user._id,
   });
@@ -30,13 +30,13 @@ const login = async (req, res, _next) => {
   const accessToken = jwt.sign(
     { uid: user._id, sid: newSession._id },
       JWT_ACCESS_SECRET,
-    { expiresIn: JWT_ACCESS_EXPIRE_TIME }
+    { expiresIn: '1h' }
   );
 
   const refreshToken = jwt.sign(
     { uid: user._id, sid: newSession._id },
       JWT_REFRESH_SECRET,
-    { expiresIn: JWT_REFRESH_EXPIRE_TIME }
+    { expiresIn: '30d'}
   );
 
   return res.json({
