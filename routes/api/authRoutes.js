@@ -20,7 +20,7 @@ router.post(
 
 router.post(
   "/users/logout", 
-  ctrlWrapper(auth), 
+  auth, 
   ctrlWrapper(authCtrl.logout)
 );
 

@@ -16,7 +16,7 @@ const registration = async (req, res, _next) => {
     password: hashedPassword,
   });
 
-  return res.json({
+  return res.status(201).json({
     status: "Created",
     code: 201,
     data: {registerUser}

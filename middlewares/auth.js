@@ -1,6 +1,7 @@
 const { JWT_ACCESS_SECRET } = require("../helpers/env");
 const { User, SessionModel } = require("../models");
 const jwt = require("jsonwebtoken");
+const { createError } = require("../helpers/errors");
 
 const auth  = async (req, res, next) => {
   const authorizationHeader = req.get("Authorization");
@@ -16,11 +17,11 @@ const auth  = async (req, res, next) => {
       const session = await SessionModel.findById(payload.sid);
 
       if (!user) {
-        return res.status(404).send({ message: "Invalid user" });
+        throw createError(404, "Invalid user");
       }
   
       if (!session) {
-        return res.status(404).send({ message: "Invalid session" });
+        throw createError(404, "Invalid session");
       }
 
       req.user = user;
