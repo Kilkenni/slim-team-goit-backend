@@ -1,8 +1,19 @@
 require("dotenv").config();
-const { PORT, DB_HOST, SECRET_KEY } = process.env;
+
+const { 
+  PORT, 
+  DB_HOST, 
+  JWT_ACCESS_SECRET,
+  JWT_ACCESS_EXPIRE_TIME,
+  JWT_REFRESH_SECRET,
+  JWT_REFRESH_EXPIRE_TIME, 
+} = process.env;
 
 module.exports = {
   PORT,
   DB_HOST,
-  SECRET_KEY,
+  JWT_ACCESS_SECRET,
+  JWT_ACCESS_EXPIRE_TIME,
+  JWT_REFRESH_SECRET,
+  JWT_REFRESH_EXPIRE_TIME, 
 };

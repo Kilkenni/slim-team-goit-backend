@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, default: mongoose } = require("mongoose");
 const Joi = require("joi");
 
 const emailRegexp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -51,6 +51,8 @@ const userSchema = Schema(
   { versionKey: false, timestamps: true }
 );
 
+const User = model("user", userSchema);
+
 const joiSchemaRegister = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
   name: Joi.string().pattern(nameRegexp).min(2).max(16).required(),
@@ -62,6 +64,33 @@ const joiSchemaLogin = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-const User = model("user", userSchema);
 
-module.exports = { User, joiSchemaRegister, joiSchemaLogin };
+const sessionSchema = new Schema({
+  uid: mongoose.Types.ObjectId,
+});
+
+const SessionModel = model("Session", sessionSchema);
+
+const refreshTokensSchema = Joi.object({
+  sid: Joi.string()
+    .custom((value, helpers) => {
+      const isValidObjectId = mongoose.Types.ObjectId.isValid(value);
+      if (!isValidObjectId) {
+        return helpers.message({
+          custom: "Invalid 'sid'. Must be a MongoDB ObjectId",
+        });
+      }
+      return value;
+    })
+    .required(),
+});
+
+
+
+module.exports = { 
+  User, 
+  SessionModel,
+  joiSchemaRegister, 
+  joiSchemaLogin, 
+  refreshTokensSchema, 
+};
