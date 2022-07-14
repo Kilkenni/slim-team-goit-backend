@@ -24,10 +24,6 @@
     {
       "name": "Diary",
       "description": "Diary endpoints"
-    },
-    {
-      "name": "Unknown",
-      "description": "Unknown endpoints"
     }
   ]
 }
