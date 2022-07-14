@@ -21,13 +21,13 @@ app.use("/api/auth", authRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/diary", diaryRouter);
 
-app.use((_req, _res) => {
-  throw createError(404, "Not found")
+app.use((req, res) => {
+  throw createError(404, "Not found");
 });
 
-app.use((err, _req, _res, _next) => {
+app.use((err, req, res, next) => {
   const { status = 500, message = "Internal Server Error" } = err;
-  throw createError(status, message)
+  res.status(status).json({ message });
 });
 
 module.exports = app;
