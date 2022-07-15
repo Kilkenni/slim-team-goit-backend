@@ -6,6 +6,7 @@ const productsRouter = require("./routes/api/productsRoutes");
 const diaryRouter = require("./routes/api/diaryRoutes");
 const usersRouter = require("./routes/api/usersRoutes");
 const swaggerRouter = require("./routes/api/swaggerRoutes");
+const { createError } = require("./helpers/errors");
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use("/api/user", usersRouter);
 app.use("/api/diary", diaryRouter);
 
 app.use((req, res) => {
-  res.status(404).json({ message: "Not found" });
+  throw createError(404, "Not found");
 });
 
 app.use((err, req, res, next) => {

@@ -1,12 +1,13 @@
 const { User } = require("../../models");
 const bcrypt = require("bcryptjs");
+const { createError } = require("../../helpers/errors");
 
 const registration = async (req, res, _next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email: email });
 
   if (user) {
-    res.status(409).json({ message: "Email in use" });
+    throw createError(409, "Email in use")
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -14,7 +15,12 @@ const registration = async (req, res, _next) => {
     ...req.body,
     password: hashedPassword,
   });
-  res.status(201).json(registerUser);
+
+  return res.status(201).json({
+    status: "Created",
+    code: 201,
+    data: {registerUser}
+    });
 };
 
 module.exports = registration;
