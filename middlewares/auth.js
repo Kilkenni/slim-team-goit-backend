@@ -29,10 +29,9 @@ const auth = async (req, res, next) => {
 
       next();
     } catch (err) {
-      return res.json(err);
+      next(err);
     }
-    next();
-  } else return res.status(400).send({ message: "No token provided" });
+  } else throw createError(400, "No token provided");
 };
 
 module.exports = auth;
