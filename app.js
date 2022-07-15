@@ -4,6 +4,7 @@ const cors = require("cors");
 const authRouter = require("./routes/api/authRoutes");
 const productsRouter = require("./routes/api/productsRoutes");
 const diaryRouter = require("./routes/api/diaryRoutes");
+const usersRouter = require("./routes/api/usersRoutes");
 const swaggerRouter = require("./routes/api/swaggerRoutes");
 const { createError } = require("./helpers/errors");
 
@@ -19,6 +20,7 @@ app.use(express.static("public"));
 app.use("/api/", swaggerRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/products", productsRouter);
+app.use("/api/user", usersRouter);
 app.use("/api/diary", diaryRouter);
 
 app.use((req, res) => {
