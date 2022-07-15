@@ -25,7 +25,7 @@ const getCaloriesAndNotAllowedProducts = async (req, res) => {
     status: "Success",
     code: 200,
     data: {
-      products: [...notAllowedProducts],
+      notAllowedProducts,
       calories,
     },
   });

@@ -3,7 +3,7 @@ const { User, SessionModel } = require("../models");
 const jwt = require("jsonwebtoken");
 const { createError } = require("../helpers/errors");
 
-const auth  = async (req, res, next) => {
+const auth = async (req, res, next) => {
   const authorizationHeader = req.get("Authorization");
 
   if (authorizationHeader) {
@@ -14,22 +14,22 @@ const auth  = async (req, res, next) => {
 
       const user = await User.findById(payload.uid);
 
+      if (!user) {
+        throw createError(401, "Invalid user");
+      }
+
       const session = await SessionModel.findById(payload.sid);
 
-      if (!user) {
-        throw createError(404, "Invalid user");
-      }
-  
       if (!session) {
-        throw createError(404, "Invalid session");
+        throw createError(401, "Invalid session");
       }
 
       req.user = user;
       req.session = session;
-  
+
       next();
     } catch (err) {
-      return res.json(err)
+      return res.json(err);
     }
     next();
   } else return res.status(400).send({ message: "No token provided" });
