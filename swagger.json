@@ -12,18 +12,322 @@
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "servers": [{ "url": "http://localhost:3000" }, { "url": " " }],
+
   "tags": [
     {
-      "name": "User",
-      "description": "User endpoints"
+      "name": "Auth",
+      "description": "Authorization endpoints"
     },
     {
       "name": "Products",
       "description": "Products endpoints"
-    },
-    {
-      "name": "Diary",
-      "description": "Diary endpoints"
     }
-  ]
+  ],
+
+  "paths": {
+    "/api/auth/signup": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Email in use",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "parameters": [],
+        "requestBody": {
+          "description": "Login object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "403": {
+            "description": "Wrong email or password",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/products/": {
+      "post": {
+        "tags": ["Products"],
+        "summary": "Get calories and not allowed products",
+        "parameters": [],
+        "requestBody": {
+          "description": "Calories and products object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalorAndProdRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalorAndProdResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Mom Merry"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "merry@mail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              },
+              "password": {
+                "type": "string"
+              },
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "age": {
+                    "type": "string"
+                  },
+                  "height": {
+                    "type": "string"
+                  },
+                  "currentWeight": {
+                    "type": "string"
+                  },
+                  "desiredWeight": {
+                    "type": "string"
+                  },
+                  "bloodType": {
+                    "type": "string"
+                  },
+                  "calories": {
+                    "type": "string"
+                  }
+                }
+              },
+              "notAllowedProducts": {
+                "type": "array"
+              }
+            }
+          }
+        }
+      },
+
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "merry@mail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "accessToken": {
+                "type": "string"
+              },
+              "refreshToken": {
+                "type": "string"
+              },
+              "sid": {
+                "type": "string"
+              },
+              "userData": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "CalorAndProdRequest": {
+        "type": "object",
+        "required": [
+          "height",
+          "age",
+          "currentWeight",
+          "desiredWeight",
+          "bloodType"
+        ],
+        "properties": {
+          "height": {
+            "type": "string",
+            "description": "User's height",
+            "example": "170"
+          },
+          "age": {
+            "type": "string",
+            "description": "User's age",
+            "example": "25"
+          },
+          "currentWeight": {
+            "type": "string",
+            "description": "User's current weight",
+            "example": "62"
+          },
+          "desiredWeight": {
+            "type": "string",
+            "description": "User's desired weight",
+            "example": "56"
+          },
+          "bloodType": {
+            "type": "string",
+            "description": "User's blood type",
+            "example": "2"
+          }
+        }
+      },
+
+      "CalorAndProdResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "notAllowedProducts": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "calories": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

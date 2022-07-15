@@ -7,25 +7,21 @@ const { refreshTokensSchema } = require("../../models/user");
 const router = express.Router();
 
 router.post(
-  "/users/signup",
+  "/signup",
   joiValidation(joiSchemaRegister),
   ctrlWrapper(authCtrl.registration)
 );
 
 router.post(
-  "/users/login",
+  "/login",
   joiValidation(joiSchemaLogin),
   ctrlWrapper(authCtrl.login)
 );
 
-router.post(
-  "/users/logout", 
-  auth, 
-  ctrlWrapper(authCtrl.logout)
-);
+router.post("/logout", auth, ctrlWrapper(authCtrl.logout));
 
 router.post(
-  "/users/refresh",
+  "/refresh",
   joiValidation(refreshTokensSchema),
   ctrlWrapper(authCtrl.refreshTokens)
 );
