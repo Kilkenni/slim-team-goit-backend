@@ -20,7 +20,7 @@ const productSchema = Schema({
   },
 });
 
-const joiSchemaProductGet = Joi.object({
+const joiUserParamsSchema = Joi.object({
   height: Joi.string().required(),
   age: Joi.string().required(),
   currentWeight: Joi.string().required(),
@@ -30,4 +30,4 @@ const joiSchemaProductGet = Joi.object({
 
 const Product = model("products", productSchema);
 
-module.exports = { Product, joiSchemaProductGet };
+module.exports = { Product, joiUserParamsSchema };

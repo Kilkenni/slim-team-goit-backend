@@ -1,4 +1,4 @@
-const { User, SessionModel } = require("../../models");
+const { User, Session } = require("../../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } = require("../../helpers/env");
@@ -18,7 +18,7 @@ const login = async (req, res) => {
     throw createError(403, "Wrong email or password");
   }
 
-  const newSession = await SessionModel.create({
+  const newSession = await Session.create({
     uid: user._id,
   });
 

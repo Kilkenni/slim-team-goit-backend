@@ -1,8 +1,11 @@
 const express = require("express");
 const { joiValidation, ctrlWrapper, auth } = require("../../middlewares");
-const { joiSchemaRegister, joiSchemaLogin } = require("../../models");
+const {
+  joiSchemaRegister,
+  joiSchemaLogin,
+  joiRefreshTokensSchema,
+} = require("../../models");
 const { authCtrl } = require("../../controllers");
-const { refreshTokensSchema } = require("../../models/user");
 
 const router = express.Router();
 
@@ -22,7 +25,7 @@ router.post("/logout", auth, ctrlWrapper(authCtrl.logout));
 
 router.post(
   "/refresh",
-  joiValidation(refreshTokensSchema),
+  joiValidation(joiRefreshTokensSchema),
   ctrlWrapper(authCtrl.refreshTokens)
 );
 

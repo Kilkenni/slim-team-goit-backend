@@ -12,7 +12,7 @@ const getCaloriesAndNotAllowedProducts = async (req, res) => {
   const notAllowedProducts = await Product.find(
     { ["groupBloodNotAllowed." + bloodType]: { $eq: true } },
     "-__v ",
-    { limit: 50, sort: { calories: -1 } }
+    { limit: 10, sort: { calories: -1 } }
   );
 
   if (!notAllowedProducts) {
