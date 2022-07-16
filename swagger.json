@@ -11,7 +11,10 @@
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "http://localhost:3000" }, { "url": " " }],
+  "servers": [
+    { "url": "http://localhost:3000" },
+    { "url": "https://goit-slim-mom-backend.herokuapp.com" }
+  ],
 
   "tags": [
     {
@@ -21,6 +24,14 @@
     {
       "name": "Products",
       "description": "Products endpoints"
+    },
+    {
+      "name": "Users",
+      "description": "Users endpoints"
+    },
+    {
+      "name": "Diary",
+      "description": "Diary endpoints"
     }
   ],
 
@@ -153,7 +164,7 @@
     "/api/auth/refresh": {
       "post": {
         "tags": ["Auth"],
-        "summary": "Tokens refresh",
+        "summary": "Tokens refresh (!!! Refresh Token required as a Bearer Token)",
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {
@@ -208,7 +219,7 @@
         "summary": "Get calories and not allowed products",
         "parameters": [],
         "requestBody": {
-          "description": "Calories and products object",
+          "description": "User parameters object",
           "required": true,
           "content": {
             "application/json": {
@@ -245,11 +256,19 @@
       }
     },
 
-    "/api/products/:searchQuery": {
+    "/api/products/{searchQuery}": {
       "get": {
         "tags": ["Products"],
         "summary": "Get product",
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "searchQuery",
+            "type": "string",
+            "required": true,
+            "description": "'searchQuery' required to get product"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -258,6 +277,219 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Invalid user or session",
+            "content": {}
+          },
+          "403": {
+            "description": "No token provided",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/users/": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Update users parameters",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "User parameters object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalorAndProdRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserParamsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Invalid user or session",
+            "content": {}
+          },
+          "403": {
+            "description": "No token provided",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/diary/{date}": {
+      "get": {
+        "tags": ["Diary"],
+        "summary": "Get user diary on date",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "date",
+            "type": "string",
+            "required": true,
+            "description": "'date' required to get diary on date"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiaryOnDateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Invalid user or session",
+            "content": {}
+          },
+          "403": {
+            "description": "No token provided",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/diary/": {
+      "post": {
+        "tags": ["Diary"],
+        "summary": "Add product to diary",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Product's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Invalid user or session",
+            "content": {}
+          },
+          "403": {
+            "description": "No token provided",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/diary/{productId}": {
+      "delete": {
+        "tags": ["Diary"],
+        "summary": "Delete product from diary",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "type": "string",
+            "required": true,
+            "description": "'productId' required to delete product from diary"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Product delete object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteProductResponse"
                 }
               }
             }
@@ -501,6 +733,249 @@
                 "type": "string"
               }
             }
+          }
+        }
+      },
+
+      "ProductResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "product": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "weight": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "object",
+                      "properties": {
+                        "ru": {
+                          "type": "string"
+                        },
+                        "ua": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "calories": {
+                      "type": "number"
+                    },
+                    "groupBloodNotAllowed": {
+                      "type": "array",
+                      "items": {
+                        "type": "boolean"
+                      },
+                      "minItems": 5,
+                      "maxItems": 5
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "UserParamsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "height": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "string"
+                  },
+                  "currentWeight": {
+                    "type": "string"
+                  },
+                  "desiredWeight": {
+                    "type": "string"
+                  },
+                  "bloodType": {
+                    "type": "string"
+                  },
+                  "calories": {
+                    "type": "string"
+                  }
+                }
+              },
+              "notAllowedProducts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "weight": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "object",
+                      "properties": {
+                        "ru": {
+                          "type": "string"
+                        },
+                        "ua": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "calories": {
+                      "type": "number"
+                    },
+                    "groupBloodNotAllowed": {
+                      "type": "array",
+                      "items": {
+                        "type": "boolean"
+                      },
+                      "minItems": 5,
+                      "maxItems": 5
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "DiaryOnDateResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "productList": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "object",
+                      "properties": {
+                        "ru": {
+                          "type": "string"
+                        },
+                        "ua": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "weight": {
+                      "type": "number"
+                    },
+                    "calories": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "date": {
+                "type": "string"
+              },
+              "caloriesReceived": {
+                "type": "number"
+              },
+              "owner": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+
+      "AddProductRequest": {
+        "type": "object",
+        "required": ["title", "weight", "date"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Product's title",
+            "example": "Кава латте макіато"
+          },
+          "weight": {
+            "type": "string",
+            "description": "Product's weight",
+            "example": "200"
+          },
+          "date": {
+            "type": "string",
+            "description": "Diary's date",
+            "example": "16.07.2022"
+          }
+        }
+      },
+
+      "AddProductResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "weight": {
+                "type": "string"
+              },
+              "calories": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+
+      "DeleteProductRequest": {
+        "type": "object",
+        "required": ["date"],
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Diary's date",
+            "example": "16.07.2022"
+          }
+        }
+      },
+
+      "DeleteProductResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
           }
         }
       }
