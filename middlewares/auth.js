@@ -27,7 +27,7 @@ const auth = async (req, res, next) => {
     } catch (err) {
       next(err);
     }
-  } else throw createError(403, "No token provided");
+  } else next( createError(403, "No token provided") );
 };
 
 module.exports = auth;
