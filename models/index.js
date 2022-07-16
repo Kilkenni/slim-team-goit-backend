@@ -1,14 +1,12 @@
-const { 
-  User, 
-  joiSchemaRegister, 
-  joiSchemaLogin, 
-  SessionModel, 
-  refreshTokensSchema 
+const {
+  User,
+  joiSchemaRegister,
+  joiSchemaLogin,
+  Session,
+  joiRefreshTokensSchema,
 } = require("./user");
 
-const { Product, 
-  joiSchemaProductGet 
-} = require("./product");
+const { Product, joiUserParamsSchema } = require("./product");
 
 const {
   Diary,
@@ -16,14 +14,14 @@ const {
   joiSchemaProductDelete,
 } = require("./diary");
 
-module.exports = { 
-  User, 
-  joiSchemaRegister, 
-  joiSchemaLogin, 
-  SessionModel,
-  refreshTokensSchema, 
+module.exports = {
+  User,
+  joiSchemaRegister,
+  joiSchemaLogin,
+  Session,
+  joiRefreshTokensSchema,
   Product,
-  joiSchemaProductGet,
+  joiUserParamsSchema,
   Diary,
   joiSchemaProductAdd,
   joiSchemaProductDelete,

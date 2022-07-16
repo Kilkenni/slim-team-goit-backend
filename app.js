@@ -20,7 +20,7 @@ app.use(express.static("public"));
 app.use("/api/", swaggerRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/products", productsRouter);
-app.use("/api/user", usersRouter);
+app.use("/api/users", usersRouter);
 app.use("/api/diary", diaryRouter);
 
 app.use((req, res) => {

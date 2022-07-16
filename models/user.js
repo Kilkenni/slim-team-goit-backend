@@ -60,14 +60,13 @@ const joiSchemaLogin = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-
 const sessionSchema = new Schema({
   uid: mongoose.Types.ObjectId,
 });
 
-const SessionModel = model("Session", sessionSchema);
+const Session = model("Session", sessionSchema);
 
-const refreshTokensSchema = Joi.object({
+const joiRefreshTokensSchema = Joi.object({
   sid: Joi.string()
     .custom((value, helpers) => {
       const isValidObjectId = mongoose.Types.ObjectId.isValid(value);
@@ -81,12 +80,10 @@ const refreshTokensSchema = Joi.object({
     .required(),
 });
 
-
-
-module.exports = { 
-  User, 
-  SessionModel,
-  joiSchemaRegister, 
-  joiSchemaLogin, 
-  refreshTokensSchema, 
+module.exports = {
+  User,
+  joiSchemaRegister,
+  joiSchemaLogin,
+  Session,
+  joiRefreshTokensSchema,
 };

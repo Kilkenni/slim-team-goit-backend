@@ -1,4 +1,4 @@
-const { SessionModel, User } = require("../../models");
+const { Session, User } = require("../../models");
 const { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } = require("../../helpers/env");
 const jwt = require("jsonwebtoken");
 const { createError } = require("../../helpers/errors");
@@ -7,7 +7,7 @@ const refreshTokens = async (req, res) => {
   const authorizationHeader = req.get("Authorization");
 
   if (authorizationHeader) {
-    const activeSession = await SessionModel.findById(req.body.sid);
+    const activeSession = await Session.findById(req.body.sid);
 
     if (!activeSession) {
       throw createError(401, "Invalid session");
@@ -19,18 +19,14 @@ const refreshTokens = async (req, res) => {
       const payload = jwt.verify(reqRefreshToken, JWT_REFRESH_SECRET);
 
       const user = await User.findById(payload.uid);
-      const session = await SessionModel.findById(payload.sid);
+      const session = await Session.findById(payload.sid);
 
-      if (!user) {
-        throw createError(401, "Invalid user");
+      if (!user || !session) {
+        throw createError(401, "Invalid user or session");
       }
 
-      if (!session) {
-        throw createError(401, "Invalid session");
-      }
-
-      await SessionModel.findByIdAndDelete(payload.sid);
-      const newSession = await SessionModel.create({
+      await Session.findByIdAndDelete(payload.sid);
+      const newSession = await Session.create({
         uid: user._id,
       });
 
@@ -45,6 +41,7 @@ const refreshTokens = async (req, res) => {
         JWT_REFRESH_SECRET,
         { expiresIn: "30d" }
       );
+
       return res.json({
         status: "Success",
         code: 200,
@@ -55,10 +52,10 @@ const refreshTokens = async (req, res) => {
         },
       });
     } catch (err) {
-      await SessionModel.findByIdAndDelete(req.body.sid);
+      await Session.findByIdAndDelete(req.body.sid);
       throw createError(401, "Unauthorized");
     }
-  } else throw createError(400, "No token provided");
+  } else throw createError(403, "No token provided");
 };
 
 module.exports = refreshTokens;

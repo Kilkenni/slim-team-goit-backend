@@ -1,5 +1,5 @@
 const { JWT_ACCESS_SECRET } = require("../helpers/env");
-const { User, SessionModel } = require("../models");
+const { User, Session } = require("../models");
 const jwt = require("jsonwebtoken");
 const { createError } = require("../helpers/errors");
 
@@ -14,14 +14,10 @@ const auth = async (req, res, next) => {
 
       const user = await User.findById(payload.uid);
 
-      if (!user) {
-        throw createError(401, "Invalid user");
-      }
+      const session = await Session.findById(payload.sid);
 
-      const session = await SessionModel.findById(payload.sid);
-
-      if (!session) {
-        throw createError(401, "Invalid session");
+      if (!user || !session) {
+        throw createError(401, "Invalid user or session");
       }
 
       req.user = user;
@@ -31,7 +27,7 @@ const auth = async (req, res, next) => {
     } catch (err) {
       next(err);
     }
-  } else throw createError(400, "No token provided");
+  } else throw createError(403, "No token provided");
 };
 
 module.exports = auth;
