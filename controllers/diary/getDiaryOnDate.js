@@ -14,9 +14,7 @@ const getDiaryOnDate = async (req, res) => {
   res.json({
     status: "Success",
     code: 200,
-    data: {
-      result: diaryOnDate,
-    },
+    data: diaryOnDate,
   });
 };
 
