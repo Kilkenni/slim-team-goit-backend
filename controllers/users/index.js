@@ -1,5 +1,7 @@
+const getCurrentUser = require("./getCurrentUser");
 const updateUserParameters = require("./updateUserParameters");
 
 module.exports = {
-    updateUserParameters,
+  getCurrentUser,
+  updateUserParameters,
 };
