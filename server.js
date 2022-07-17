@@ -3,9 +3,6 @@ const mongoose = require("mongoose");
 
 const { DB_HOST, PORT = 3000 } = require("./helpers/env");
 
-// Assemble database path from ENV variables. TODO: create new Mongo DB
-// const DB_HOST = `mongodb+srv://${process.env.MONGO_NAME}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}`;
-
 mongoose
   .connect(DB_HOST)
   .then(() => {
@@ -21,4 +18,3 @@ mongoose
     console.error("ERROR ", err);
     process.exit(1);
   });
-
