@@ -13,7 +13,7 @@ const registration = async (req, res, _next) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const data = await User.create({
+  await User.create({
     ...req.body,
     password: hashedPassword,
   });
@@ -21,7 +21,6 @@ const registration = async (req, res, _next) => {
   return res.status(201).json({
     status: "Created",
     code: 201,
-    data,
   });
 };
 
