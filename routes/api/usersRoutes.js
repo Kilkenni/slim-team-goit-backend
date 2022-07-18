@@ -5,6 +5,8 @@ const { usersCtrl } = require("../../controllers");
 
 const router = express.Router();
 
+router.get("/", auth, ctrlWrapper(usersCtrl.getCurrentUser));
+
 router.put(
   "/",
   auth,

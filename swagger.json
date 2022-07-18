@@ -12,8 +12,8 @@
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "servers": [
-    { "url": "http://localhost:3000" },
-    { "url": "https://goit-slim-mom-backend.herokuapp.com" }
+    { "url": "https://goit-slim-mom-backend.herokuapp.com" },
+    { "url": "http://localhost:3000" }
   ],
 
   "tags": [
@@ -277,6 +277,47 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Invalid user or session",
+            "content": {}
+          },
+          "403": {
+            "description": "No token provided",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/users//": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get current user data",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserResponse"
                 }
               }
             }
@@ -744,6 +785,95 @@
             "type": "object",
             "properties": {
               "product": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "weight": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "object",
+                      "properties": {
+                        "ru": {
+                          "type": "string"
+                        },
+                        "ua": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "calories": {
+                      "type": "number"
+                    },
+                    "groupBloodNotAllowed": {
+                      "type": "array",
+                      "items": {
+                        "type": "boolean"
+                      },
+                      "minItems": 5,
+                      "maxItems": 5
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "CurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              },
+              "password": {
+                "type": "string"
+              },
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "height": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "string"
+                  },
+                  "currentWeight": {
+                    "type": "string"
+                  },
+                  "desiredWeight": {
+                    "type": "string"
+                  },
+                  "bloodType": {
+                    "type": "string"
+                  },
+                  "calories": {
+                    "type": "string"
+                  }
+                }
+              },
+              "notAllowedProducts": {
                 "type": "array",
                 "items": {
                   "type": "object",
