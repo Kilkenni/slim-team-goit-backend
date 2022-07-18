@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const { createError } = require("../../helpers/errors");
 
 const registration = async (req, res, _next) => {
-  const { email, password } = req.body;
+  const { email, password, name } = req.body;
 
   const user = await User.findOne({ email: email });
 
@@ -21,6 +21,10 @@ const registration = async (req, res, _next) => {
   return res.status(201).json({
     status: "Created",
     code: 201,
+    data: {
+      email,
+      name,
+    }
   });
 };
 
