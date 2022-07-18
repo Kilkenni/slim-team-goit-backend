@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "title": "SlimMom API",
     "description": "API documentation for project 'SlimMom'",
     "license": {
@@ -305,7 +305,7 @@
       }
     },
 
-    "/api/users//": {
+    "/api/users/current": {
       "get": {
         "tags": ["Users"],
         "summary": "Get current user data",
