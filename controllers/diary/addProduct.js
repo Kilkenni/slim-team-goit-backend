@@ -52,7 +52,6 @@ const addProduct = async (req, res) => {
       title: title,
       weight: weight,
       calories: kcal,
-      //   _id,
     };
     const filterForUpdateDiary = { date: date, owner: _id };
     const optionsForUpdateDiary = {

@@ -5,7 +5,11 @@ const getDiaryOnDate = async (req, res) => {
   const ownerId = req.user._id;
   const { date } = req.params;
 
-  const diaryOnDate = await Diary.findOne({ ownerId, date });
+  const filterForFindDiary = {
+    $and: [{ date: { $eq: date } }, { owner: { $eq: ownerId } }],
+  };
+
+  const diaryOnDate = await Diary.findOne(filterForFindDiary);
 
   if (!diaryOnDate) {
     throw createError(404, "Not found");
