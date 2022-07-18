@@ -1,12 +1,11 @@
 const getCurrentUser = async (req, res) => {
-  const user = req.user;
-  console.log(user);
+  const { _id, name, email, parameters, notAllowedProducts } = req.user;
 
   res.json({
     status: "OK",
     code: 200,
-    message: `'${user.name}' user data`,
-    data: user,
+    message: `'${name}' user data`,
+    data: { _id, name, email, parameters, notAllowedProducts },
   });
 };
 

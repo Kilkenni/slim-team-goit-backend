@@ -37,6 +37,7 @@ const login = async (req, res) => {
   return res.json({
     status: "Success",
     code: 200,
+    message: `'${user.name}' logins to app`,
     data: {
       accessToken,
       refreshToken,

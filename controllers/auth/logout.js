@@ -10,6 +10,7 @@ const logout = async (req, res) => {
     .json({
       status: "No Content",
       code: 204,
+      message: "Logout was successfully completed",
     })
     .end();
 };

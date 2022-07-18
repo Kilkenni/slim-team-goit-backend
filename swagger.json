@@ -408,7 +408,7 @@
             "name": "date",
             "type": "string",
             "required": true,
-            "description": "'date' required to get diary on date"
+            "description": "'date' in format 'DD.MM.YYYY' (example '23.02.2022') required to get diary on date"
           }
         ],
         "security": [{ "Bearer": [] }],
@@ -600,35 +600,6 @@
               "email": {
                 "type": "string",
                 "format": "email"
-              },
-              "password": {
-                "type": "string"
-              },
-              "parameters": {
-                "type": "object",
-                "properties": {
-                  "age": {
-                    "type": "string"
-                  },
-                  "height": {
-                    "type": "string"
-                  },
-                  "currentWeight": {
-                    "type": "string"
-                  },
-                  "desiredWeight": {
-                    "type": "string"
-                  },
-                  "bloodType": {
-                    "type": "string"
-                  },
-                  "calories": {
-                    "type": "string"
-                  }
-                }
-              },
-              "notAllowedProducts": {
-                "type": "array"
               }
             }
           }
@@ -846,9 +817,6 @@
               "email": {
                 "type": "string",
                 "format": "email"
-              },
-              "password": {
-                "type": "string"
               },
               "parameters": {
                 "type": "object",

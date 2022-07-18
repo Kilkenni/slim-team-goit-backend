@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const { createError } = require("../../helpers/errors");
 
 const registration = async (req, res, _next) => {
-  const { email, password, name } = req.body;
+  const { email, password } = req.body;
 
   const user = await User.findOne({ email: email });
 
@@ -13,7 +13,7 @@ const registration = async (req, res, _next) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await User.create({
+  const newUser = await User.create({
     ...req.body,
     password: hashedPassword,
   });
@@ -21,10 +21,12 @@ const registration = async (req, res, _next) => {
   return res.status(201).json({
     status: "Created",
     code: 201,
+    message: `New user '${newUser.name} was created'`,
     data: {
-      email,
-      name,
-    }
+      _id: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
+    },
   });
 };
 
