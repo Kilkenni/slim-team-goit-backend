@@ -24,6 +24,7 @@ const getCaloriesAndNotAllowedProducts = async (req, res) => {
   res.json({
     status: "Success",
     code: 200,
+    message: "Calories and not allowed products information",
     data: {
       notAllowedProducts,
       calories,
