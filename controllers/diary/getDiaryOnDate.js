@@ -1,5 +1,4 @@
 const { Diary } = require("../../models");
-const { createError } = require("../../helpers/errors");
 
 const getDiaryOnDate = async (req, res) => {
   const ownerId = req.user._id;
@@ -12,7 +11,14 @@ const getDiaryOnDate = async (req, res) => {
   const diaryOnDate = await Diary.findOne(filterForFindDiary);
 
   if (!diaryOnDate) {
-    throw createError(404, "Not found");
+    return res.json({
+      status: "Success",
+      code: 200,
+      message: `Diary on date ${date} is empty`,
+      data: {
+        productList: [],
+      },
+    });
   }
 
   res.json({
