@@ -1,8 +1,15 @@
 const { Diary } = require("../../models");
+const { createError } = require("../../helpers/errors");
 
 const getDiaryOnDate = async (req, res) => {
   const ownerId = req.user._id;
   const { date } = req.params;
+
+  const dateRegexp = new RegExp("^([0-9]{2})\\.([0-9]{2})\\.([1-2][0-9]{3})$");
+
+  if (dateRegexp.test(date) === false) {
+    throw createError(400, "Incorrect date format");
+  }
 
   const filterForFindDiary = {
     $and: [{ date: { $eq: date } }, { owner: { $eq: ownerId } }],
